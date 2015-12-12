@@ -1,0 +1,42 @@
+<head>
+<script>
+// literally all of this javascript was written by @idioticsequins, all i did was change w[75] from 0x0026 to 0xFE60 so lowercase ks would work
+// if you're going to thank anybody, thank him
+// OKAY SO w[54] IS NOW 0x217E WHAT AN IMPORTANT CHANGE.
+var w=[0x0020,0x270F,0x2702,0x2701,0x1F453,0x1F56D,0x1F56E,0x1F56F,0x1F57F,0x2706,0x1F582,0x1F583,0x1F4EA,0x1F4EB,0x1F4EC,0x1F4ED,
+       0x1F4C1,0x1F4C2,0x1F4C4,0x1F5CF,0x1F5D0,0x1F5C4,0x231B,0x1F5AE,0x1F5B0,0x1F5B2,0xF5B3,0x1F5B4,0x1F5AB,0x1F5AC,0x2707,0x270D,
+       0x0040,0x270C,0x1F44C,0x1F44D,0x1F44E,0x261C,0x261E,0x261D,0x261F,0x270B,0x263A,0x1F610,0x2639,0x1F4A3,0x2620,0x2690,0x1F3F1,
+       0x2708,0x263C,0x1F4A7,0x2744,0x1F546,0x271E,0x1F548,0x2720,0x2721,0x262A,0x262F,0x0950,0x2638,0x2648,0x2649,0x264A,0x264B,0x264C,
+       0x264D,0x264E,0x264F,0x2650,0x2651,0x2652,0x2653,0x0026,0xFE60,0x25CF,0x274D,0x25A0,0x25A1,0x2610,0x2751,0x2752,0x2B27,0x29EB,
+       0x25C6,0x2756,0x2B25,0x2327,0x2353,0x2318,0x2740,0x273F,0x275D,0x275E];
+function wingding(input) {
+    var rs = "";
+    for (var i = 0; i < input.length; i++) rs += ((input.charCodeAt(i) > 126 ||
+        input.charCodeAt(i) < 32) || input.charCodeAt(i) == 10) ? input[i] : 
+		String.fromCodePoint(w[input.charCodeAt(i) - 32]);
+    return rs;
+}
+
+function rwingding(input) {
+    var rs = "";
+    for (var i = 0; i < input.length; i++) rs += (w.indexOf(input.codePointAt(i)) ==
+        -1) ? String.fromCharCode(input.codePointAt(i)) : String.fromCharCode(w.
+        indexOf(input.codePointAt(i)) + 32);
+    var aVar = 0;
+    for (var j = 0; j < rs.length; j++)
+        if (wingding(rs[j]) != input[j + aVar]) {
+            rs = rs.substring(0, j + 1) + rs.substring(j + 2);
+            aVar++;
+        }
+    return rs;
+}</script>
+</head>
+<h1>Unicode Wingdings converter</h1>
+<h3>Written by @idioticsequins, given an interface by @NO_BOOT_DEVICE</h2>
+Notes:<br/>
+1. Older messages will not work correctly due to a bug that happened in the converter. Sorry for loss of info.<br/>
+2. Slightly less older messages confuse lowercase ks with lowercase js due to the fact that in Wingdings they're both ampersands.<br/>
+<br/><br/>
+<textarea id="text" style="width:500px;height:300px"></textarea><br/>
+<button onclick="text.value=wingding(text.value)">To Wingdings</button>
+<button onclick="text.value=rwingding(text.value)">From Wingdings</button>
